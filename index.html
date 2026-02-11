@@ -7,57 +7,71 @@
     <style>
         body {
             background-color: pink;
-            text-align: center;
-            font-family: Arial, sans-serif;
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+            margin: 0;
         }
         .heart {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            background-color: red;
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            position: relative;
-            margin: 20px;
-            animation: beat 1s infinite;
-        }
-        .heart::before, .heart::after {
-            content: '';
             position: absolute;
-            width: 50px;
-            height: 50px;
-            background-color: red;
+            background-color: rgba(255, 0, 128, 0.5);
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.9);
+            animation: float 5s ease-in-out infinite;
         }
-        .heart::before {
-            top: -25px;
-            left: 0;
+        .heartbeat {
+            position: absolute;
+            animation: rotate 2s linear infinite;
         }
-        .heart::after {
-            left: 25px;
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-        @keyframes beat {
+        @keyframes float {
             0%, 100% {
-                transform: scale(1);
+                transform: translateY(0);
             }
             50% {
-                transform: scale(1.1);
+                transform: translateY(-20px);
             }
+        }
+        #no-button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2em;
+            padding: 10px 20px;
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <h1>Happy Valentine's Day!</h1>
     <div class="heart"></div>
     <div class="heart"></div>
     <div class="heart"></div>
-    <button style="position:fixed; bottom:10px; left:10px;">No</button>
-    <button style="position:fixed; bottom:10px; right:10px;" onclick="celebrate()">Yes</button>
+    <div class="heart"></div>
+    <div class="heart"></div>
+
+    <button id="no-button" onclick="rotateButton()">No</button>
 
     <script>
-        function celebrate() {
-            alert('Let the celebrations begin!');
-            // Add more celebration animations here if needed
+        function rotateButton() {
+            const button = document.getElementById('no-button');
+            button.classList.add('heartbeat');
         }
+
+        function celebrate() {
+            alert('Celebration Time!');
+            // Here you can add falling hearts and balloons
+        }
+
+        document.getElementById('no-button').addEventListener('click', celebrate);
     </script>
 </body>
 </html>
