@@ -8,62 +8,57 @@
 body {
     margin: 0;
     height: 100vh;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: Arial, sans-serif;
-    background: #ffe6f0;
-    overflow: hidden;
+    background: radial-gradient(circle at center, #ffd6e8, #ff8fb1);
 }
 
-/* BIG background hearts */
-body::before {
-    content: "❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️";
+/* Floating animated hearts */
+.heart {
     position: absolute;
-    font-size: 80px;
-    top: 0;
-    left: 0;
-    width: 200%;
-    height: 200%;
-    line-height: 120px;
-    opacity: 0.15;
-    animation: moveBg 20s linear infinite;
+    color: rgba(255, 0, 100, 0.25);
+    font-size: 40px;
+    animation: float 10s linear infinite;
 }
 
-@keyframes moveBg {
-    0% { transform: translate(0,0); }
-    100% { transform: translate(-200px,-200px); }
+@keyframes float {
+    0% { transform: translateY(100vh) scale(1); opacity: 0; }
+    30% { opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
 }
 
 .container {
     text-align: center;
-    position: relative;
     z-index: 10;
+    position: relative;
 }
 
 h1 {
-    color: #ff2e63;
     font-size: 3rem;
+    color: #c2185b;
 }
 
 button {
-    padding: 14px 30px;
+    padding: 14px 32px;
     font-size: 20px;
     border: none;
-    border-radius: 40px;
+    border-radius: 50px;
     cursor: pointer;
     margin: 20px;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease;
 }
 
 #yesBtn {
-    background: #ff2e63;
+    background: #e91e63;
     color: white;
 }
 
 #noBtn {
     background: white;
-    color: #ff2e63;
+    color: #e91e63;
     position: absolute;
 }
 </style>
@@ -84,24 +79,29 @@ const question = document.getElementById("question");
 
 let scale = 1;
 
-// Place No button initially
-noBtn.style.left = "150px";
-noBtn.style.top = "80px";
+// Initial position
+noBtn.style.left = "200px";
+noBtn.style.top = "100px";
 
-// Make No run smoothly when cursor gets close
+// Cursor repulsion logic (REAL gamification)
 document.addEventListener("mousemove", function(e) {
 
     const rect = noBtn.getBoundingClientRect();
 
-    const distance = Math.hypot(
-        e.clientX - (rect.left + rect.width/2),
-        e.clientY - (rect.top + rect.height/2)
-    );
+    const btnCenterX = rect.left + rect.width/2;
+    const btnCenterY = rect.top + rect.height/2;
 
-    if (distance < 120) {
+    const dx = btnCenterX - e.clientX;
+    const dy = btnCenterY - e.clientY;
 
-        let moveX = (Math.random() - 0.5) * 200;
-        let moveY = (Math.random() - 0.5) * 200;
+    const distance = Math.sqrt(dx*dx + dy*dy);
+
+    if (distance < 150) {
+
+        const force = 200 / distance;
+
+        let moveX = dx * force;
+        let moveY = dy * force;
 
         let newLeft = rect.left + moveX;
         let newTop = rect.top + moveY;
@@ -113,15 +113,26 @@ document.addEventListener("mousemove", function(e) {
         noBtn.style.left = newLeft + "px";
         noBtn.style.top = newTop + "px";
 
-        scale += 0.05;
+        scale += 0.02;
         yesBtn.style.transform = "scale(" + scale + ")";
-        question.innerText = "You really trying? 😏";
+        question.innerText = "Catch me if you can 😜";
     }
 });
 
 yesBtn.addEventListener("click", () => {
-    document.body.innerHTML = "<h1 style='color:#ff2e63;text-align:center;margin-top:40vh;font-size:3rem;'>YAYYYY SHE SAID YES 💖💖💖</h1>";
+    document.body.innerHTML = "<h1 style='color:#c2185b;text-align:center;margin-top:40vh;font-size:3rem;'>SHE SAID YES 💖💖💖</h1>";
 });
+
+/* Generate floating hearts */
+for (let i = 0; i < 25; i++) {
+    let heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (6 + Math.random() * 5) + "s";
+    heart.style.fontSize = (30 + Math.random() * 40) + "px";
+    document.body.appendChild(heart);
+}
 </script>
 
 </body>
