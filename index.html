@@ -16,24 +16,22 @@ body {
     background: radial-gradient(circle at center, #ffd6e8, #ff8fb1);
 }
 
-/* Floating animated hearts */
 .heart {
     position: absolute;
     color: rgba(255, 0, 100, 0.25);
-    font-size: 40px;
-    animation: float 10s linear infinite;
+    animation: float 8s linear infinite;
 }
 
 @keyframes float {
-    0% { transform: translateY(100vh) scale(1); opacity: 0; }
-    30% { opacity: 1; }
-    100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    0% { transform: translateY(100vh); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateY(-10vh); opacity: 0; }
 }
 
 .container {
     text-align: center;
-    z-index: 10;
     position: relative;
+    z-index: 10;
 }
 
 h1 {
@@ -59,7 +57,7 @@ button {
 #noBtn {
     background: white;
     color: #e91e63;
-    position: absolute;
+    position: fixed;
 }
 </style>
 </head>
@@ -67,70 +65,70 @@ button {
 <body>
 
 <div class="container">
-    <h1 id="question">Will You Be My Valentine? 💖</h1>
+    <h1>Will You Be My Valentine? 💖</h1>
     <button id="yesBtn">Yes 😍</button>
     <button id="noBtn">No 🙈</button>
 </div>
 
 <script>
 const noBtn = document.getElementById("noBtn");
-const yesBtn = document.getElementById("yesBtn");
-const question = document.getElementById("question");
 
-let scale = 1;
+let x = window.innerWidth / 2 + 100;
+let y = window.innerHeight / 2;
 
-// Initial position
-noBtn.style.left = "200px";
-noBtn.style.top = "100px";
+let vx = 0;
+let vy = 0;
 
-// Cursor repulsion logic (REAL gamification)
+noBtn.style.left = x + "px";
+noBtn.style.top = y + "px";
+
 document.addEventListener("mousemove", function(e) {
 
     const rect = noBtn.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
 
-    const btnCenterX = rect.left + rect.width/2;
-    const btnCenterY = rect.top + rect.height/2;
+    const dx = centerX - e.clientX;
+    const dy = centerY - e.clientY;
 
-    const dx = btnCenterX - e.clientX;
-    const dy = btnCenterY - e.clientY;
-
-    const distance = Math.sqrt(dx*dx + dy*dy);
+    const distance = Math.sqrt(dx * dx + dy * dy);
 
     if (distance < 150) {
-
-        const force = 200 / distance;
-
-        let moveX = dx * force;
-        let moveY = dy * force;
-
-        let newLeft = rect.left + moveX;
-        let newTop = rect.top + moveY;
-
-        // Keep inside screen
-        newLeft = Math.max(0, Math.min(window.innerWidth - rect.width, newLeft));
-        newTop = Math.max(0, Math.min(window.innerHeight - rect.height, newTop));
-
-        noBtn.style.left = newLeft + "px";
-        noBtn.style.top = newTop + "px";
-
-        scale += 0.02;
-        yesBtn.style.transform = "scale(" + scale + ")";
-        question.innerText = "Catch me if you can 😜";
+        const force = 2;
+        vx += (dx / distance) * force;
+        vy += (dy / distance) * force;
     }
 });
 
-yesBtn.addEventListener("click", () => {
-    document.body.innerHTML = "<h1 style='color:#c2185b;text-align:center;margin-top:40vh;font-size:3rem;'>SHE SAID YES 💖💖💖</h1>";
-});
+function animate() {
 
-/* Generate floating hearts */
-for (let i = 0; i < 25; i++) {
-    let heart = document.createElement("div");
-    heart.classList.add("heart");
+    x += vx;
+    y += vy;
+
+    vx *= 0.9;  // friction
+    vy *= 0.9;
+
+    // Keep inside screen
+    const rect = noBtn.getBoundingClientRect();
+    x = Math.max(0, Math.min(window.innerWidth - rect.width, x));
+    y = Math.max(0, Math.min(window.innerHeight - rect.height, y));
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+/* Floating hearts generator */
+for (let i = 0; i < 30; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
     heart.innerHTML = "❤️";
     heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (6 + Math.random() * 5) + "s";
-    heart.style.fontSize = (30 + Math.random() * 40) + "px";
+    heart.style.fontSize = (30 + Math.random() * 50) + "px";
+    heart.style.animationDuration = (5 + Math.random() * 5) + "s";
     document.body.appendChild(heart);
 }
 </script>
