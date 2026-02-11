@@ -14,165 +14,177 @@
         body {
             width: 100%;
             height: 100vh;
-            overflow: hidden;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #ffc0d9 0%, #ff69b4 50%, #ff1493 100%);
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffb3d9 0%, #ff69b4 50%, #ff1493 100%);
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
             position: relative;
         }
 
-        /* Large decorative hearts background */
-        .heart-bg {
+        /* Background floating hearts */
+        .floating-heart {
             position: absolute;
-            font-size: 120px;
-            opacity: 0.15;
-            animation: float 20s infinite ease-in-out;
-            pointer-events: none;
+            font-size: 80px;
+            opacity: 0.2;
+            animation: floatUp 15s infinite ease-in;
         }
 
-        .heart-bg:nth-child(1) { top: 5%; left: 10%; animation-delay: 0s; }
-        .heart-bg:nth-child(2) { top: 15%; right: 8%; animation-delay: 2s; }
-        .heart-bg:nth-child(3) { top: 50%; left: 5%; animation-delay: 4s; }
-        .heart-bg:nth-child(4) { bottom: 15%; right: 10%; animation-delay: 6s; }
-        .heart-bg:nth-child(5) { top: 60%; right: 5%; animation-delay: 8s; }
-        .heart-bg:nth-child(6) { bottom: 20%; left: 15%; animation-delay: 10s; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-30px) scale(1.1); }
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.2;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         .container {
             text-align: center;
+            z-index: 100;
             position: relative;
-            z-index: 10;
-            padding: 30px;
         }
 
         h1 {
-            font-size: 4rem;
-            color: #fff;
-            margin-bottom: 60px;
-            text-shadow: 2px 2px 8px rgba(255, 20, 147, 0.4);
-            font-weight: 700;
-            letter-spacing: 2px;
+            font-size: 60px;
+            color: white;
+            margin-bottom: 50px;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+            animation: bounce 2s infinite;
         }
 
-        .button-container {
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .button-group {
             position: relative;
+            height: 100px;
             display: flex;
-            gap: 40px;
             justify-content: center;
             align-items: center;
-            height: 80px;
+            gap: 50px;
         }
 
         button {
-            padding: 18px 50px;
+            padding: 15px 40px;
             font-size: 24px;
-            font-weight: 700;
+            font-weight: bold;
             border: none;
-            border-radius: 50px;
+            border-radius: 30px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            position: relative;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
         }
 
         #yesBtn {
             background: linear-gradient(135deg, #ff1493, #ff69b4);
             color: white;
-            z-index: 15;
+            position: relative;
+            z-index: 50;
         }
 
-        #yesBtn:hover:not(:disabled) {
-            transform: scale(1.1);
-            box-shadow: 0 12px 30px rgba(255, 20, 147, 0.5);
+        #yesBtn:hover {
+            transform: scale(1.15);
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.6);
         }
 
-        #yesBtn:active:not(:disabled) {
-            transform: scale(0.98);
+        #yesBtn:active {
+            transform: scale(0.95);
         }
 
         #noBtn {
-            background: linear-gradient(135deg, #fff, #fff5f7);
+            background: white;
             color: #ff1493;
             position: fixed;
-            z-index: 20;
+            z-index: 60;
             border: 3px solid #ff1493;
-            font-weight: 700;
+            width: 100px;
+            height: 50px;
         }
 
         #noBtn:hover {
-            transform: scale(1.05);
+            transform: scale(1.1);
         }
 
-        /* Celebration container */
-        .celebration {
+        /* Celebration effects */
+        .celebration-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 100;
+            z-index: 200;
             display: none;
         }
 
-        .celebration.active {
+        .celebration-container.active {
             display: block;
         }
 
-        .heart-pop {
+        .falling-heart {
             position: absolute;
-            font-size: 60px;
-            animation: heartPop 2s ease-out forwards;
+            font-size: 50px;
+            animation: fall 2s ease-out forwards;
         }
 
-        .balloon {
+        .rising-balloon {
             position: absolute;
-            animation: riseUp 3s ease-in forwards;
+            font-size: 50px;
+            animation: rise 3s ease-in forwards;
         }
 
-        @keyframes heartPop {
+        @keyframes fall {
             0% {
-                transform: scale(1) translateY(0);
+                transform: translateY(-100px) scale(1);
                 opacity: 1;
             }
             100% {
-                transform: scale(0.3) translateY(-300px);
+                transform: translateY(500px) scale(0.5);
                 opacity: 0;
             }
         }
 
-        @keyframes riseUp {
+        @keyframes rise {
             0% {
-                transform: translateY(0) translateX(0);
+                transform: translateY(0) translateX(0) scale(1);
                 opacity: 1;
             }
             100% {
-                transform: translateY(-800px) translateX(50px);
+                transform: translateY(-600px) translateX(100px) scale(0.5);
                 opacity: 0;
             }
         }
 
-        .success-message {
+        .success-msg {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background: white;
-            padding: 40px 60px;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            z-index: 105;
-            font-size: 2.5rem;
-            font-weight: 700;
+            padding: 50px 80px;
+            border-radius: 20px;
+            font-size: 36px;
+            font-weight: bold;
             color: #ff1493;
-            opacity: 0;
-            animation: popIn 0.5s ease-out forwards;
+            z-index: 300;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+            animation: popIn 0.6s ease-out;
         }
 
         @keyframes popIn {
@@ -188,163 +200,114 @@
     </style>
 </head>
 <body>
-    <!-- Large decorative hearts -->
-    <div class="heart-bg">❤️</div>
-    <div class="heart-bg">❤️</div>
-    <div class="heart-bg">❤️</div>
-    <div class="heart-bg">❤️</div>
-    <div class="heart-bg">❤️</div>
-    <div class="heart-bg">❤️</div>
+
+    <!-- Floating hearts background -->
+    <div class="floating-heart" style="left: 10%; animation-delay: 0s;">❤️</div>
+    <div class="floating-heart" style="left: 20%; animation-delay: 3s;">❤️</div>
+    <div class="floating-heart" style="left: 30%; animation-delay: 6s;">❤️</div>
+    <div class="floating-heart" style="left: 40%; animation-delay: 9s;">❤️</div>
+    <div class="floating-heart" style="left: 50%; animation-delay: 2s;">❤️</div>
+    <div class="floating-heart" style="left: 60%; animation-delay: 5s;">❤️</div>
+    <div class="floating-heart" style="left: 70%; animation-delay: 8s;">❤️</div>
+    <div class="floating-heart" style="left: 80%; animation-delay: 1s;">❤️</div>
+    <div class="floating-heart" style="left: 90%; animation-delay: 4s;">❤️</div>
 
     <div class="container">
         <h1>Will You Be My Valentine? 💕</h1>
-        <div class="button-container">
-            <button id="yesBtn">Yes 😍</button>
-            <button id="noBtn">No 🙈</button>
+        <div class="button-group">
+            <button id="yesBtn">YES 😍</button>
+            <button id="noBtn">NO 😢</button>
         </div>
     </div>
 
-    <div class="celebration"></div>
+    <div class="celebration-container"></div>
 
     <script>
-        const noBtn = document.getElementById("noBtn");
-        const yesBtn = document.getElementById("yesBtn");
-        const celebration = document.querySelector(".celebration");
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const celebration = document.querySelector('.celebration-container');
 
-        let isRunning = false;
-        let targetX, targetY;
-
-        // Initialize No button position
-        function initNoBtn() {
-            const rect = noBtn.getBoundingClientRect();
-            noBtn.style.left = (window.innerWidth / 2 - 150) + "px";
-            noBtn.style.top = (window.innerHeight / 2) + "px";
+        // Position No button initially
+        function positionNoBtn() {
+            noBtn.style.left = (window.innerWidth / 2 - 50) + 'px';
+            noBtn.style.top = (window.innerHeight / 2 + 80) + 'px';
         }
+        positionNoBtn();
 
-        initNoBtn();
+        // Make No button run away from cursor
+        document.addEventListener('mousemove', function(e) {
+            const noRect = noBtn.getBoundingClientRect();
+            const noCenterX = noRect.left + noRect.width / 2;
+            const noCenterY = noRect.top + noRect.height / 2;
 
-        // Get random position within screen bounds
-        function getRandomPosition() {
-            const rect = noBtn.getBoundingClientRect();
-            const maxX = window.innerWidth - rect.width - 10;
-            const maxY = window.innerHeight - rect.height - 10;
-            
-            return {
-                x: Math.max(10, Math.random() * maxX),
-                y: Math.max(10, Math.random() * maxY)
-            };
-        }
+            const distance = Math.sqrt(
+                Math.pow(e.clientX - noCenterX, 2) + Math.pow(e.clientY - noCenterY, 2)
+            );
 
-        // Smooth easing function for running effect
-        function easeOutQuart(t) {
-            return 1 - Math.pow(1 - t, 4);
-        }
+            // If cursor is close, move the button away
+            if (distance < 150) {
+                const angle = Math.atan2(noCenterY - e.clientY, noCenterX - e.clientX);
+                const newX = e.clientX + Math.cos(angle) * 200;
+                const newY = e.clientY + Math.sin(angle) * 200;
 
-        document.addEventListener("mousemove", function(e) {
-            if (isRunning) return;
+                // Keep button on screen
+                const finalX = Math.max(0, Math.min(window.innerWidth - noRect.width, newX));
+                const finalY = Math.max(0, Math.min(window.innerHeight - noRect.height, newY));
 
-            const rect = noBtn.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-
-            const dx = e.clientX - centerX;
-            const dy = e.clientY - centerY;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-
-            // If cursor is within 120px, trigger running animation
-            if (distance < 120) {
-                isRunning = true;
-                const newPos = getRandomPosition();
-                runAnimation(newPos.x, newPos.y);
+                noBtn.style.left = finalX + 'px';
+                noBtn.style.top = finalY + 'px';
             }
         });
 
-        // Smooth running animation
-        function runAnimation(targetX, targetY) {
-            const rect = noBtn.getBoundingClientRect();
-            const startX = parseFloat(noBtn.style.left) || rect.left;
-            const startY = parseFloat(noBtn.style.top) || rect.top;
-
-            const startTime = performance.now();
-            const duration = 400; // 400ms for smooth movement
-
-            function animate(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const easeProgress = easeOutQuart(progress);
-
-                const newX = startX + (targetX - startX) * easeProgress;
-                const newY = startY + (targetY - startY) * easeProgress;
-
-                noBtn.style.left = newX + "px";
-                noBtn.style.top = newY + "px";
-
-                if (progress < 1) {
-                    requestAnimationFrame(animate);
-                } else {
-                    isRunning = false;
-                }
-            }
-
-            requestAnimationFrame(animate);
-        }
-
-        // Prevent clicking No button
-        noBtn.addEventListener("click", function(e) {
-            e.preventDefault();
-            isRunning = true;
-            const newPos = getRandomPosition();
-            runAnimation(newPos.x, newPos.y);
-        });
-
-        // Yes button celebration
-        yesBtn.addEventListener("click", function() {
+        // Yes button clicked - celebration!
+        yesBtn.addEventListener('click', function() {
             yesBtn.disabled = true;
-            noBtn.style.display = "none";
+            noBtn.style.display = 'none';
 
             // Show success message
-            const successMsg = document.createElement("div");
-            successMsg.className = "success-message";
-            successMsg.textContent = "🎉 YES! I'm so happy! 💕";
-            document.body.appendChild(successMsg);
+            const msg = document.createElement('div');
+            msg.className = 'success-msg';
+            msg.textContent = '🎉 YES! I LOVE YOU! 💕';
+            document.body.appendChild(msg);
 
-            // Create celebration effects
-            createCelebration();
-        });
+            // Activate celebration
+            celebration.classList.add('active');
 
-        function createCelebration() {
-            // Create floating hearts
+            // Create falling hearts
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'falling-heart';
+                    heart.textContent = '❤️';
+                    heart.style.left = Math.random() * window.innerWidth + 'px';
+                    heart.style.top = '-50px';
+                    celebration.appendChild(heart);
+                    setTimeout(() => heart.remove(), 2000);
+                }, i * 80);
+            }
+
+            // Create rising balloons
             for (let i = 0; i < 20; i++) {
                 setTimeout(() => {
-                    const heart = document.createElement("div");
-                    heart.className = "heart-pop";
-                    heart.textContent = "❤️";
-                    heart.style.left = Math.random() * window.innerWidth + "px";
-                    heart.style.top = window.innerHeight / 2 + "px";
-                    celebration.appendChild(heart);
-
-                    setTimeout(() => heart.remove(), 2000);
+                    const balloon = document.createElement('div');
+                    balloon.className = 'rising-balloon';
+                    balloon.textContent = '🎈';
+                    balloon.style.left = Math.random() * window.innerWidth + 'px';
+                    balloon.style.top = window.innerHeight - 50 + 'px';
+                    celebration.appendChild(balloon);
+                    setTimeout(() => balloon.remove(), 3000);
                 }, i * 100);
             }
+        });
 
-            // Create balloons
-            for (let i = 0; i < 15; i++) {
-                setTimeout(() => {
-                    const balloon = document.createElement("div");
-                    balloon.className = "balloon";
-                    balloon.textContent = "🎈";
-                    balloon.style.left = Math.random() * window.innerWidth + "px";
-                    balloon.style.top = window.innerHeight - 50 + "px";
-                    balloon.style.fontSize = (40 + Math.random() * 30) + "px";
-                    celebration.appendChild(balloon);
-
-                    setTimeout(() => balloon.remove(), 3000);
-                }, i * 150);
-            }
-        }
+        // Prevent No button from being clicked
+        noBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+        });
 
         // Handle window resize
-        window.addEventListener("resize", initNoBtn);
+        window.addEventListener('resize', positionNoBtn);
     </script>
+
 </body>
 </html>
