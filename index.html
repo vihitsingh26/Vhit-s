@@ -1,110 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Be My Valentine?</title>
+
 <style>
-    body {
-        margin: 0;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: 'Arial', sans-serif;
-        background: linear-gradient(135deg, #ff9ec4, #ffc1da);
-        overflow: hidden;
-    }
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ff6b9d, #ffc1da);
+    overflow: hidden;
+}
 
-    .container {
-        text-align: center;
-        position: relative;
-    }
+/* Floating hearts background */
+.heart-bg {
+    position: absolute;
+    font-size: 60px;
+    opacity: 0.15;
+    animation: float 10s linear infinite;
+}
 
-    h1 {
-        color: white;
-        font-size: 2.5rem;
-    }
+@keyframes float {
+    0% { transform: translateY(100vh); }
+    100% { transform: translateY(-10vh); }
+}
 
-    .buttons {
-        margin-top: 20px;
-        position: relative;
-    }
+.container {
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
 
-    button {
-        padding: 12px 25px;
-        font-size: 18px;
-        border: none;
-        border-radius: 30px;
-        cursor: pointer;
-        transition: 0.3s;
-        margin: 10px;
-    }
+h1 {
+    color: white;
+    font-size: 2.5rem;
+}
 
-    #yesBtn {
-        background-color: #ff4d6d;
-        color: white;
-    }
+button {
+    padding: 14px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    margin: 15px;
+    transition: 0.2s;
+}
 
-    #noBtn {
-        background-color: white;
-        color: #ff4d6d;
-        position: absolute;
-    }
+#yesBtn {
+    background: #ff2e63;
+    color: white;
+}
 
-    .heart {
-        position: absolute;
-        font-size: 20px;
-        animation: floatUp 3s linear forwards;
-    }
-
-    @keyframes floatUp {
-        0% { transform: translateY(0); opacity: 1; }
-        100% { transform: translateY(-300px); opacity: 0; }
-    }
-
+#noBtn {
+    background: white;
+    color: #ff2e63;
+    position: absolute;
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
-    <h1>Will You Be My Valentine? ❤️</h1>
-    <div class="buttons">
-        <button id="yesBtn">Yes 💖</button>
-        <button id="noBtn">No 😢</button>
-    </div>
+    <h1 id="question">Will You Be My Valentine? ❤️</h1>
+    <button id="yesBtn">Yes 💖</button>
+    <button id="noBtn">No 😢</button>
 </div>
 
 <script>
-const noBtn = document.getElementById('noBtn');
-const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const question = document.getElementById("question");
 
-noBtn.addEventListener('mouseover', () => {
-    const x = Math.random() * window.innerWidth - 100;
-    const y = Math.random() * window.innerHeight - 50;
-    noBtn.style.left = `${x}px`;
-    noBtn.style.top = `${y}px`;
+let scale = 1;
+
+noBtn.addEventListener("mouseenter", () => {
+    const container = document.querySelector(".container");
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
+
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+
+    scale += 0.1;
+    yesBtn.style.transform = "scale(" + scale + ")";
+
+    question.innerText = "Are you sure? 😏";
 });
 
-yesBtn.addEventListener('click', () => {
-    document.body.innerHTML = "<h1 style='color:white;text-align:center;margin-top:40vh;'>YAYYYY ❤️❤️❤️</h1>";
-    startCelebration();
+yesBtn.addEventListener("click", () => {
+    document.body.innerHTML = "<h1 style='color:white;text-align:center;margin-top:40vh;font-size:3rem;'>YAYYYYY 💖💖💖</h1>";
+    celebration();
 });
 
-function startCelebration() {
-    for (let i = 0; i < 50; i++) {
-        const heart = document.createElement('div');
-        heart.classList.add('heart');
+function celebration() {
+    for (let i = 0; i < 60; i++) {
+        let heart = document.createElement("div");
         heart.innerHTML = "💖";
+        heart.style.position = "absolute";
         heart.style.left = Math.random() * window.innerWidth + "px";
         heart.style.top = window.innerHeight + "px";
-        heart.style.fontSize = Math.random() * 30 + 20 + "px";
+        heart.style.fontSize = "30px";
+        heart.style.animation = "float 4s linear forwards";
         document.body.appendChild(heart);
-
-        setTimeout(() => {
-            heart.remove();
-        }, 3000);
     }
+}
+
+/* Background floating hearts */
+for (let i = 0; i < 20; i++) {
+    let bgHeart = document.createElement("div");
+    bgHeart.className = "heart-bg";
+    bgHeart.innerHTML = "❤️";
+    bgHeart.style.left = Math.random() * 100 + "vw";
+    bgHeart.style.animationDuration = (6 + Math.random() * 5) + "s";
+    document.body.appendChild(bgHeart);
 }
 </script>
 
