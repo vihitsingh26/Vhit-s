@@ -70,59 +70,41 @@ button {
     <button id="yesBtn">Yes 💖</button>
     <button id="noBtn">No 😢</button>
 </div>
-
 <script>
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 const question = document.getElementById("question");
 
 let scale = 1;
+let angle = 0;
+let radius = 120;
+
+const centerX = window.innerWidth / 2;
+const centerY = window.innerHeight / 2;
+
+function moveInCircle() {
+    angle += 0.05;
+
+    const x = centerX + radius * Math.cos(angle);
+    const y = centerY + radius * Math.sin(angle);
+
+    noBtn.style.position = "fixed";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    requestAnimationFrame(moveInCircle);
+}
 
 noBtn.addEventListener("mouseenter", () => {
-    const container = document.querySelector(".container");
-    const maxX = window.innerWidth - noBtn.offsetWidth;
-    const maxY = window.innerHeight - noBtn.offsetHeight;
-
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
-
-    noBtn.style.left = randomX + "px";
-    noBtn.style.top = randomY + "px";
-
     scale += 0.1;
     yesBtn.style.transform = "scale(" + scale + ")";
-
-    question.innerText = "Are you sure? 😏";
+    question.innerText = "You can't catch me 😜";
 });
 
 yesBtn.addEventListener("click", () => {
-    document.body.innerHTML = "<h1 style='color:white;text-align:center;margin-top:40vh;font-size:3rem;'>YAYYYYY 💖💖💖</h1>";
-    celebration();
+    document.body.innerHTML =
+        "<h1 style='color:white;text-align:center;margin-top:40vh;font-size:3rem;'>SHE SAID YES 💖💖💖</h1>";
 });
 
-function celebration() {
-    for (let i = 0; i < 60; i++) {
-        let heart = document.createElement("div");
-        heart.innerHTML = "💖";
-        heart.style.position = "absolute";
-        heart.style.left = Math.random() * window.innerWidth + "px";
-        heart.style.top = window.innerHeight + "px";
-        heart.style.fontSize = "30px";
-        heart.style.animation = "float 4s linear forwards";
-        document.body.appendChild(heart);
-    }
-}
-
-/* Background floating hearts */
-for (let i = 0; i < 20; i++) {
-    let bgHeart = document.createElement("div");
-    bgHeart.className = "heart-bg";
-    bgHeart.innerHTML = "❤️";
-    bgHeart.style.left = Math.random() * 100 + "vw";
-    bgHeart.style.animationDuration = (6 + Math.random() * 5) + "s";
-    document.body.appendChild(bgHeart);
-}
+moveInCircle();
 </script>
-
-</body>
-</html>
