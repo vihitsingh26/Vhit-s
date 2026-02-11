@@ -1,195 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will You Be My Valentine?</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            background: linear-gradient(45deg, #ffb3d9, #ff69b4, #ff1493);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine?</title>
 
-        .main {
-            text-align: center;
-            position: relative;
-            z-index: 10;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        h1 {
-            font-size: 50px;
-            color: white;
-            margin: 0 0 50px 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
+body {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at center, #ffd6e8, #ff8fb1);
+}
 
-        .buttons {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            align-items: center;
-        }
+/* Floating hearts background */
+.bg-heart {
+    position: absolute;
+    color: rgba(255, 20, 147, 0.25);
+    animation: floatUp 8s linear infinite;
+}
 
-        .yes-btn {
-            padding: 20px 50px;
-            font-size: 22px;
-            background: #ff1493;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: all 0.3s;
-        }
+@keyframes floatUp {
+    0% { transform: translateY(100vh) scale(1); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+}
 
-        .yes-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-        }
+.container {
+    text-align: center;
+    z-index: 10;
+    position: relative;
+}
 
-        .no-btn {
-            padding: 20px 50px;
-            font-size: 22px;
-            background: white;
-            color: #ff1493;
-            border: 3px solid #ff1493;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            position: fixed;
-            transition: all 0.2s;
-        }
+h1 {
+    font-size: 3.5rem;
+    color: #c2185b;
+    margin-bottom: 50px;
+    text-shadow: 2px 2px 15px rgba(0,0,0,0.2);
+}
 
-        .no-btn:hover {
-            background: #ffebf0;
-        }
+button {
+    padding: 15px 40px;
+    font-size: 22px;
+    font-weight: bold;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    margin: 20px;
+    transition: transform 0.2s ease;
+}
 
-        /* Hearts animation in background */
-        .heart-bg {
-            position: absolute;
-            font-size: 100px;
-            opacity: 0.15;
-        }
+#yesBtn {
+    background: linear-gradient(135deg, #ff1493, #ff69b4);
+    color: white;
+}
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
+#yesBtn:hover {
+    transform: scale(1.1);
+}
 
-        .heart1 { left: 10%; top: 20%; animation: float 4s infinite; }
-        .heart2 { right: 15%; top: 30%; animation: float 5s infinite 0.5s; }
-        .heart3 { left: 20%; bottom: 20%; animation: float 4.5s infinite 1s; }
-        .heart4 { right: 10%; bottom: 30%; animation: float 5.5s infinite 1.5s; }
-        .heart5 { left: 50%; top: 15%; animation: float 6s infinite 2s; }
-        .heart6 { right: 40%; bottom: 15%; animation: float 4.8s infinite 0.8s; }
+#noBtn {
+    background: white;
+    color: #ff1493;
+    border: 3px solid #ff1493;
+    position: fixed;
+}
 
-        /* Success message */
-        .success {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 50px 100px;
-            border-radius: 20px;
-            font-size: 40px;
-            font-weight: bold;
-            color: #ff1493;
-            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
-            z-index: 1000;
-            display: none;
-            animation: popUp 0.5s ease-out;
-        }
+/* Celebration */
+.success {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 40px 70px;
+    border-radius: 20px;
+    font-size: 36px;
+    font-weight: bold;
+    color: #ff1493;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    z-index: 200;
+}
 
-        @keyframes popUp {
-            from { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        }
+.celebrate-item {
+    position: fixed;
+    font-size: 40px;
+    animation: explode 3s linear forwards;
+}
 
-        .success.show {
-            display: block;
-        }
-
-        /* Celebrating elements */
-        .celebrate {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 500;
-        }
-
-        .heart-fall {
-            position: absolute;
-            font-size: 50px;
-            animation: fall 2s ease-in forwards;
-        }
-
-        .balloon-rise {
-            position: absolute;
-            font-size: 50px;
-            animation: rise 3s ease-out forwards;
-        }
-
-        @keyframes fall {
-            to { transform: translateY(100vh); opacity: 0; }
-        }
-
-        @keyframes rise {
-            to { transform: translateY(-100vh); opacity: 0; }
-        }
-    </style>
+@keyframes explode {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-600px) rotate(360deg); opacity: 0; }
+}
+</style>
 </head>
+
 <body>
 
-    <!-- Background hearts -->
-    <div class="heart-bg heart1">❤️</div>
-    <div class="heart-bg heart2">❤️</div>
-    <div class="heart-bg heart3">❤️</div>
-    <div class="heart-bg heart4">❤️</div>
-    <div class="heart-bg heart5">❤️</div>
-    <div class="heart-bg heart6">❤️</div>
+<div class="container">
+    <h1>Will You Be My Valentine? 💖</h1>
+    <button id="yesBtn">YES 😍</button>
+    <button id="noBtn">NO 😢</button>
+</div>
 
-    <!-- Main content -->
-    <div class="main">
-        <h1>Will You Be My Valentine? 💕</h1>
-        <div class="buttons">
-            <button class="yes-btn" id="yes">YES 😍</button>
-            <button class="no-btn" id="no">NO 😢</button>
-        </div>
-    </div>
-
-    <!-- Success message -->
-    <div class="success" id="success">🎉 YES! I'm So Happy! 💕</div>
-
-    <!-- Celebration container -->
-    <div class="celebrate" id="celebrate"></div>
-
-    const noBtn = document.getElementById('noBtn');
+<script>
+const noBtn = document.getElementById('noBtn');
 const yesBtn = document.getElementById('yesBtn');
-const celebration = document.querySelector('.celebration-container');
 
-let x = window.innerWidth / 2 + 150;
+let x = window.innerWidth / 2 + 120;
 let y = window.innerHeight / 2;
 
 let vx = 0;
 let vy = 0;
 
-noBtn.style.position = "fixed";
 noBtn.style.left = x + "px";
 noBtn.style.top = y + "px";
 
+/* REAL chase physics */
 document.addEventListener('mousemove', function(e) {
 
     const rect = noBtn.getBoundingClientRect();
@@ -199,10 +136,10 @@ document.addEventListener('mousemove', function(e) {
     const dx = centerX - e.clientX;
     const dy = centerY - e.clientY;
 
-    const distance = Math.sqrt(dx*dx + dy*dy);
+    const distance = Math.sqrt(dx * dx + dy * dy);
 
     if (distance < 160) {
-        const force = 4; // higher = more dramatic
+        const force = 5;
         vx += (dx / distance) * force;
         vy += (dy / distance) * force;
     }
@@ -213,13 +150,12 @@ function animate() {
     x += vx;
     y += vy;
 
-    // friction for smooth slowdown
-    vx *= 0.92;
-    vy *= 0.92;
+    vx *= 0.90;  // friction
+    vy *= 0.90;
 
     const rect = noBtn.getBoundingClientRect();
 
-    // keep inside screen
+    // Keep inside viewport
     x = Math.max(0, Math.min(window.innerWidth - rect.width, x));
     y = Math.max(0, Math.min(window.innerHeight - rect.height, y));
 
@@ -230,3 +166,39 @@ function animate() {
 }
 
 animate();
+
+/* Celebration */
+yesBtn.addEventListener('click', function() {
+
+    noBtn.style.display = "none";
+    yesBtn.disabled = true;
+
+    const msg = document.createElement("div");
+    msg.className = "success";
+    msg.innerText = "🎉 SHE SAID YES! 💕";
+    document.body.appendChild(msg);
+
+    for (let i = 0; i < 40; i++) {
+        const item = document.createElement("div");
+        item.className = "celebrate-item";
+        item.innerText = Math.random() > 0.5 ? "❤️" : "🎈";
+        item.style.left = Math.random() * window.innerWidth + "px";
+        item.style.top = window.innerHeight + "px";
+        document.body.appendChild(item);
+    }
+});
+
+/* Generate floating hearts */
+for (let i = 0; i < 30; i++) {
+    const heart = document.createElement("div");
+    heart.className = "bg-heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (30 + Math.random() * 50) + "px";
+    heart.style.animationDuration = (5 + Math.random() * 5) + "s";
+    document.body.appendChild(heart);
+}
+</script>
+
+</body>
+</html>
