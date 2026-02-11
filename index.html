@@ -76,129 +76,23 @@ button {
     position: fixed;
 }
 
-/* Celebration */
+/* Success message */
 .success {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background: white;
-    padding: 40px 70px;
+    padding: 50px 80px;
     border-radius: 20px;
-    font-size: 36px;
+    font-size: 34px;
     font-weight: bold;
     color: #ff1493;
+    text-align: center;
     box-shadow: 0 10px 40px rgba(0,0,0,0.3);
     z-index: 200;
+    animation: popIn 0.5s ease-out;
 }
 
-.celebrate-item {
-    position: fixed;
-    font-size: 40px;
-    animation: explode 3s linear forwards;
-}
-
-@keyframes explode {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(-600px) rotate(360deg); opacity: 0; }
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-    <h1>Will You Be My Valentine? 💖</h1>
-    <button id="yesBtn">YES 😍</button>
-    <button id="noBtn">NO 😢</button>
-</div>
-
-<script>
-const noBtn = document.getElementById('noBtn');
-const yesBtn = document.getElementById('yesBtn');
-
-let x = window.innerWidth / 2 + 120;
-let y = window.innerHeight / 2;
-
-let vx = 0;
-let vy = 0;
-
-noBtn.style.left = x + "px";
-noBtn.style.top = y + "px";
-
-/* REAL chase physics */
-document.addEventListener('mousemove', function(e) {
-
-    const rect = noBtn.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-
-    const dx = centerX - e.clientX;
-    const dy = centerY - e.clientY;
-
-    const distance = Math.sqrt(dx * dx + dy * dy);
-
-    if (distance < 160) {
-        const force = 5;
-        vx += (dx / distance) * force;
-        vy += (dy / distance) * force;
-    }
-});
-
-function animate() {
-
-    x += vx;
-    y += vy;
-
-    vx *= 0.90;  // friction
-    vy *= 0.90;
-
-    const rect = noBtn.getBoundingClientRect();
-
-    // Keep inside viewport
-    x = Math.max(0, Math.min(window.innerWidth - rect.width, x));
-    y = Math.max(0, Math.min(window.innerHeight - rect.height, y));
-
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-
-    requestAnimationFrame(animate);
-}
-
-animate();
-
-/* Celebration */
-yesBtn.addEventListener('click', function() {
-
-    noBtn.style.display = "none";
-    yesBtn.disabled = true;
-
-    const msg = document.createElement("div");
-    msg.className = "success";
-    msg.innerText = "🎉 SHE SAID YES! 💕";
-    document.body.appendChild(msg);
-
-    for (let i = 0; i < 40; i++) {
-        const item = document.createElement("div");
-        item.className = "celebrate-item";
-        item.innerText = Math.random() > 0.5 ? "❤️" : "🎈";
-        item.style.left = Math.random() * window.innerWidth + "px";
-        item.style.top = window.innerHeight + "px";
-        document.body.appendChild(item);
-    }
-});
-
-/* Generate floating hearts */
-for (let i = 0; i < 30; i++) {
-    const heart = document.createElement("div");
-    heart.className = "bg-heart";
-    heart.innerHTML = "❤️";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (30 + Math.random() * 50) + "px";
-    heart.style.animationDuration = (5 + Math.random() * 5) + "s";
-    document.body.appendChild(heart);
-}
-</script>
-
-</body>
-</html>
+@keyframes popIn {
+    0% { transform: translate(-50%, -50%) scal
