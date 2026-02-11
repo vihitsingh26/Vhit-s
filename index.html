@@ -1,137 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Be My Valentine?</title>
-
-<style>
-body {
-    margin: 0;
-    height: 100vh;
-    overflow: hidden;
-    font-family: 'Segoe UI', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: radial-gradient(circle at center, #ffd6e8, #ff8fb1);
-}
-
-.heart {
-    position: absolute;
-    color: rgba(255, 0, 100, 0.25);
-    animation: float 8s linear infinite;
-}
-
-@keyframes float {
-    0% { transform: translateY(100vh); opacity: 0; }
-    20% { opacity: 1; }
-    100% { transform: translateY(-10vh); opacity: 0; }
-}
-
-.container {
-    text-align: center;
-    position: relative;
-    z-index: 10;
-}
-
-h1 {
-    font-size: 3rem;
-    color: #c2185b;
-}
-
-button {
-    padding: 14px 32px;
-    font-size: 20px;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    margin: 20px;
-    transition: transform 0.2s ease;
-}
-
-#yesBtn {
-    background: #e91e63;
-    color: white;
-}
-
-#noBtn {
-    background: white;
-    color: #e91e63;
-    position: fixed;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day Celebration</title>
+    <style>
+        body {
+            background-color: pink;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .heart {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            position: relative;
+            margin: 20px;
+            animation: beat 1s infinite;
+        }
+        .heart::before, .heart::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            border-radius: 50%;
+        }
+        .heart::before {
+            top: -25px;
+            left: 0;
+        }
+        .heart::after {
+            left: 25px;
+        }
+        @keyframes beat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+    </style>
 </head>
-
 <body>
+    <h1>Happy Valentine's Day!</h1>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <button style="position:fixed; bottom:10px; left:10px;">No</button>
+    <button style="position:fixed; bottom:10px; right:10px;" onclick="celebrate()">Yes</button>
 
-<div class="container">
-    <h1>Will You Be My Valentine? 💖</h1>
-    <button id="yesBtn">Yes 😍</button>
-    <button id="noBtn">No 🙈</button>
-</div>
-
-<script>
-const noBtn = document.getElementById("noBtn");
-
-let x = window.innerWidth / 2 + 100;
-let y = window.innerHeight / 2;
-
-let vx = 0;
-let vy = 0;
-
-noBtn.style.left = x + "px";
-noBtn.style.top = y + "px";
-
-document.addEventListener("mousemove", function(e) {
-
-    const rect = noBtn.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-
-    const dx = centerX - e.clientX;
-    const dy = centerY - e.clientY;
-
-    const distance = Math.sqrt(dx * dx + dy * dy);
-
-    if (distance < 150) {
-        const force = 2;
-        vx += (dx / distance) * force;
-        vy += (dy / distance) * force;
-    }
-});
-
-function animate() {
-
-    x += vx;
-    y += vy;
-
-    vx *= 0.9;  // friction
-    vy *= 0.9;
-
-    // Keep inside screen
-    const rect = noBtn.getBoundingClientRect();
-    x = Math.max(0, Math.min(window.innerWidth - rect.width, x));
-    y = Math.max(0, Math.min(window.innerHeight - rect.height, y));
-
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-
-    requestAnimationFrame(animate);
-}
-
-animate();
-
-/* Floating hearts generator */
-for (let i = 0; i < 30; i++) {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "❤️";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (30 + Math.random() * 50) + "px";
-    heart.style.animationDuration = (5 + Math.random() * 5) + "s";
-    document.body.appendChild(heart);
-}
-</script>
-
+    <script>
+        function celebrate() {
+            alert('Let the celebrations begin!');
+            // Add more celebration animations here if needed
+        }
+    </script>
 </body>
 </html>
