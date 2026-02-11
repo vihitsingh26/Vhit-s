@@ -176,77 +176,57 @@
     <!-- Celebration container -->
     <div class="celebrate" id="celebrate"></div>
 
-    <script>
-        const yesBtn = document.getElementById('yes');
-        const noBtn = document.getElementById('no');
-        const success = document.getElementById('success');
-        const celebrate = document.getElementById('celebrate');
+    const noBtn = document.getElementById('noBtn');
+const yesBtn = document.getElementById('yesBtn');
+const celebration = document.querySelector('.celebration-container');
 
-        // Set initial position for No button
-        noBtn.style.left = '150px';
-        noBtn.style.top = '200px';
+let x = window.innerWidth / 2 + 150;
+let y = window.innerHeight / 2;
 
-        // Make No button run away from cursor
-        document.addEventListener('mousemove', function(e) {
-            const rect = noBtn.getBoundingClientRect();
-            const btnCenterX = rect.left + rect.width / 2;
-            const btnCenterY = rect.top + rect.height / 2;
+let vx = 0;
+let vy = 0;
 
-            const dist = Math.sqrt(Math.pow(e.clientX - btnCenterX, 2) + Math.pow(e.clientY - btnCenterY, 2));
+noBtn.style.position = "fixed";
+noBtn.style.left = x + "px";
+noBtn.style.top = y + "px";
 
-            if (dist < 100) {
-                // Calculate angle to run away
-                const angle = Math.atan2(btnCenterY - e.clientY, btnCenterX - e.clientX);
-                let newX = e.clientX + Math.cos(angle) * 150;
-                let newY = e.clientY + Math.sin(angle) * 150;
+document.addEventListener('mousemove', function(e) {
 
-                // Keep button inside window
-                newX = Math.max(0, Math.min(window.innerWidth - rect.width, newX));
-                newY = Math.max(0, Math.min(window.innerHeight - rect.height, newY));
+    const rect = noBtn.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
 
-                noBtn.style.left = newX + 'px';
-                noBtn.style.top = newY + 'px';
-            }
-        });
+    const dx = centerX - e.clientX;
+    const dy = centerY - e.clientY;
 
-        // Yes button click
-        yesBtn.addEventListener('click', function() {
-            yesBtn.disabled = true;
-            noBtn.style.display = 'none';
-            success.classList.add('show');
+    const distance = Math.sqrt(dx*dx + dy*dy);
 
-            // Create falling hearts and rising balloons
-            for (let i = 0; i < 30; i++) {
-                setTimeout(() => {
-                    const heart = document.createElement('div');
-                    heart.className = 'heart-fall';
-                    heart.textContent = '❤️';
-                    heart.style.left = Math.random() * window.innerWidth + 'px';
-                    heart.style.top = '-50px';
-                    celebrate.appendChild(heart);
-                    setTimeout(() => heart.remove(), 2000);
-                }, i * 50);
-            }
+    if (distance < 160) {
+        const force = 4; // higher = more dramatic
+        vx += (dx / distance) * force;
+        vy += (dy / distance) * force;
+    }
+});
 
-            for (let i = 0; i < 25; i++) {
-                setTimeout(() => {
-                    const balloon = document.createElement('div');
-                    balloon.className = 'balloon-rise';
-                    balloon.textContent = '🎈';
-                    balloon.style.left = Math.random() * window.innerWidth + 'px';
-                    balloon.style.top = window.innerHeight - 50 + 'px';
-                    celebrate.appendChild(balloon);
-                    setTimeout(() => balloon.remove(), 3000);
-                }, i * 80);
-            }
-        });
+function animate() {
 
-        // No button - make it unclickable
-        noBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            return false;
-        });
-    </script>
+    x += vx;
+    y += vy;
 
-</body>
-</html>
+    // friction for smooth slowdown
+    vx *= 0.92;
+    vy *= 0.92;
+
+    const rect = noBtn.getBoundingClientRect();
+
+    // keep inside screen
+    x = Math.max(0, Math.min(window.innerWidth - rect.width, x));
+    y = Math.max(0, Math.min(window.innerHeight - rect.height, y));
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    requestAnimationFrame(animate);
+}
+
+animate();
