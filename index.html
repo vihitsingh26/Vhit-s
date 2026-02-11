@@ -1,312 +1,251 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Will You Be My Valentine?</title>
     <style>
-        * {
+        body {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            width: 100%;
             height: 100vh;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #ffb3d9 0%, #ff69b4 50%, #ff1493 100%);
+            background: linear-gradient(45deg, #ffb3d9, #ff69b4, #ff1493);
             display: flex;
             justify-content: center;
             align-items: center;
+            font-family: Arial, sans-serif;
             overflow: hidden;
-            position: relative;
         }
 
-        /* Background floating hearts */
-        .floating-heart {
-            position: absolute;
-            font-size: 80px;
-            opacity: 0.2;
-            animation: floatUp 15s infinite ease-in;
-        }
-
-        @keyframes floatUp {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.2;
-            }
-            90% {
-                opacity: 0.2;
-            }
-            100% {
-                transform: translateY(-100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        .container {
+        .main {
             text-align: center;
-            z-index: 100;
             position: relative;
+            z-index: 10;
         }
 
         h1 {
-            font-size: 60px;
+            font-size: 50px;
             color: white;
-            margin-bottom: 50px;
-            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
-            animation: bounce 2s infinite;
+            margin: 0 0 50px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-
-        .button-group {
-            position: relative;
-            height: 100px;
+        .buttons {
             display: flex;
+            gap: 30px;
             justify-content: center;
             align-items: center;
-            gap: 50px;
         }
 
-        button {
-            padding: 15px 40px;
-            font-size: 24px;
-            font-weight: bold;
+        .yes-btn {
+            padding: 20px 50px;
+            font-size: 22px;
+            background: #ff1493;
+            color: white;
             border: none;
             border-radius: 30px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
         }
 
-        #yesBtn {
-            background: linear-gradient(135deg, #ff1493, #ff69b4);
-            color: white;
-            position: relative;
-            z-index: 50;
+        .yes-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
 
-        #yesBtn:hover {
-            transform: scale(1.15);
-            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.6);
-        }
-
-        #yesBtn:active {
-            transform: scale(0.95);
-        }
-
-        #noBtn {
+        .no-btn {
+            padding: 20px 50px;
+            font-size: 22px;
             background: white;
             color: #ff1493;
-            position: fixed;
-            z-index: 60;
             border: 3px solid #ff1493;
-            width: 100px;
-            height: 50px;
-        }
-
-        #noBtn:hover {
-            transform: scale(1.1);
-        }
-
-        /* Celebration effects */
-        .celebration-container {
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 200;
-            display: none;
+            transition: all 0.2s;
         }
 
-        .celebration-container.active {
-            display: block;
+        .no-btn:hover {
+            background: #ffebf0;
         }
 
-        .falling-heart {
+        /* Hearts animation in background */
+        .heart-bg {
             position: absolute;
-            font-size: 50px;
-            animation: fall 2s ease-out forwards;
+            font-size: 100px;
+            opacity: 0.15;
         }
 
-        .rising-balloon {
-            position: absolute;
-            font-size: 50px;
-            animation: rise 3s ease-in forwards;
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
         }
 
-        @keyframes fall {
-            0% {
-                transform: translateY(-100px) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(500px) scale(0.5);
-                opacity: 0;
-            }
-        }
+        .heart1 { left: 10%; top: 20%; animation: float 4s infinite; }
+        .heart2 { right: 15%; top: 30%; animation: float 5s infinite 0.5s; }
+        .heart3 { left: 20%; bottom: 20%; animation: float 4.5s infinite 1s; }
+        .heart4 { right: 10%; bottom: 30%; animation: float 5.5s infinite 1.5s; }
+        .heart5 { left: 50%; top: 15%; animation: float 6s infinite 2s; }
+        .heart6 { right: 40%; bottom: 15%; animation: float 4.8s infinite 0.8s; }
 
-        @keyframes rise {
-            0% {
-                transform: translateY(0) translateX(0) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-600px) translateX(100px) scale(0.5);
-                opacity: 0;
-            }
-        }
-
-        .success-msg {
+        /* Success message */
+        .success {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background: white;
-            padding: 50px 80px;
+            padding: 50px 100px;
             border-radius: 20px;
-            font-size: 36px;
+            font-size: 40px;
             font-weight: bold;
             color: #ff1493;
-            z-index: 300;
-            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
-            animation: popIn 0.6s ease-out;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+            animation: popUp 0.5s ease-out;
         }
 
-        @keyframes popIn {
-            0% {
-                transform: translate(-50%, -50%) scale(0);
-                opacity: 0;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 1;
-            }
+        @keyframes popUp {
+            from { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .success.show {
+            display: block;
+        }
+
+        /* Celebrating elements */
+        .celebrate {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 500;
+        }
+
+        .heart-fall {
+            position: absolute;
+            font-size: 50px;
+            animation: fall 2s ease-in forwards;
+        }
+
+        .balloon-rise {
+            position: absolute;
+            font-size: 50px;
+            animation: rise 3s ease-out forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh); opacity: 0; }
+        }
+
+        @keyframes rise {
+            to { transform: translateY(-100vh); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Floating hearts background -->
-    <div class="floating-heart" style="left: 10%; animation-delay: 0s;">❤️</div>
-    <div class="floating-heart" style="left: 20%; animation-delay: 3s;">❤️</div>
-    <div class="floating-heart" style="left: 30%; animation-delay: 6s;">❤️</div>
-    <div class="floating-heart" style="left: 40%; animation-delay: 9s;">❤️</div>
-    <div class="floating-heart" style="left: 50%; animation-delay: 2s;">❤️</div>
-    <div class="floating-heart" style="left: 60%; animation-delay: 5s;">❤️</div>
-    <div class="floating-heart" style="left: 70%; animation-delay: 8s;">❤️</div>
-    <div class="floating-heart" style="left: 80%; animation-delay: 1s;">❤️</div>
-    <div class="floating-heart" style="left: 90%; animation-delay: 4s;">❤️</div>
+    <!-- Background hearts -->
+    <div class="heart-bg heart1">❤️</div>
+    <div class="heart-bg heart2">❤️</div>
+    <div class="heart-bg heart3">❤️</div>
+    <div class="heart-bg heart4">❤️</div>
+    <div class="heart-bg heart5">❤️</div>
+    <div class="heart-bg heart6">❤️</div>
 
-    <div class="container">
+    <!-- Main content -->
+    <div class="main">
         <h1>Will You Be My Valentine? 💕</h1>
-        <div class="button-group">
-            <button id="yesBtn">YES 😍</button>
-            <button id="noBtn">NO 😢</button>
+        <div class="buttons">
+            <button class="yes-btn" id="yes">YES 😍</button>
+            <button class="no-btn" id="no">NO 😢</button>
         </div>
     </div>
 
-    <div class="celebration-container"></div>
+    <!-- Success message -->
+    <div class="success" id="success">🎉 YES! I'm So Happy! 💕</div>
+
+    <!-- Celebration container -->
+    <div class="celebrate" id="celebrate"></div>
 
     <script>
-        const noBtn = document.getElementById('noBtn');
-        const yesBtn = document.getElementById('yesBtn');
-        const celebration = document.querySelector('.celebration-container');
+        const yesBtn = document.getElementById('yes');
+        const noBtn = document.getElementById('no');
+        const success = document.getElementById('success');
+        const celebrate = document.getElementById('celebrate');
 
-        // Position No button initially
-        function positionNoBtn() {
-            noBtn.style.left = (window.innerWidth / 2 - 50) + 'px';
-            noBtn.style.top = (window.innerHeight / 2 + 80) + 'px';
-        }
-        positionNoBtn();
+        // Set initial position for No button
+        noBtn.style.left = '150px';
+        noBtn.style.top = '200px';
 
         // Make No button run away from cursor
         document.addEventListener('mousemove', function(e) {
-            const noRect = noBtn.getBoundingClientRect();
-            const noCenterX = noRect.left + noRect.width / 2;
-            const noCenterY = noRect.top + noRect.height / 2;
+            const rect = noBtn.getBoundingClientRect();
+            const btnCenterX = rect.left + rect.width / 2;
+            const btnCenterY = rect.top + rect.height / 2;
 
-            const distance = Math.sqrt(
-                Math.pow(e.clientX - noCenterX, 2) + Math.pow(e.clientY - noCenterY, 2)
-            );
+            const dist = Math.sqrt(Math.pow(e.clientX - btnCenterX, 2) + Math.pow(e.clientY - btnCenterY, 2));
 
-            // If cursor is close, move the button away
-            if (distance < 150) {
-                const angle = Math.atan2(noCenterY - e.clientY, noCenterX - e.clientX);
-                const newX = e.clientX + Math.cos(angle) * 200;
-                const newY = e.clientY + Math.sin(angle) * 200;
+            if (dist < 100) {
+                // Calculate angle to run away
+                const angle = Math.atan2(btnCenterY - e.clientY, btnCenterX - e.clientX);
+                let newX = e.clientX + Math.cos(angle) * 150;
+                let newY = e.clientY + Math.sin(angle) * 150;
 
-                // Keep button on screen
-                const finalX = Math.max(0, Math.min(window.innerWidth - noRect.width, newX));
-                const finalY = Math.max(0, Math.min(window.innerHeight - noRect.height, newY));
+                // Keep button inside window
+                newX = Math.max(0, Math.min(window.innerWidth - rect.width, newX));
+                newY = Math.max(0, Math.min(window.innerHeight - rect.height, newY));
 
-                noBtn.style.left = finalX + 'px';
-                noBtn.style.top = finalY + 'px';
+                noBtn.style.left = newX + 'px';
+                noBtn.style.top = newY + 'px';
             }
         });
 
-        // Yes button clicked - celebration!
+        // Yes button click
         yesBtn.addEventListener('click', function() {
             yesBtn.disabled = true;
             noBtn.style.display = 'none';
+            success.classList.add('show');
 
-            // Show success message
-            const msg = document.createElement('div');
-            msg.className = 'success-msg';
-            msg.textContent = '🎉 YES! I LOVE YOU! 💕';
-            document.body.appendChild(msg);
-
-            // Activate celebration
-            celebration.classList.add('active');
-
-            // Create falling hearts
-            for (let i = 0; i < 25; i++) {
+            // Create falling hearts and rising balloons
+            for (let i = 0; i < 30; i++) {
                 setTimeout(() => {
                     const heart = document.createElement('div');
-                    heart.className = 'falling-heart';
+                    heart.className = 'heart-fall';
                     heart.textContent = '❤️';
                     heart.style.left = Math.random() * window.innerWidth + 'px';
                     heart.style.top = '-50px';
-                    celebration.appendChild(heart);
+                    celebrate.appendChild(heart);
                     setTimeout(() => heart.remove(), 2000);
-                }, i * 80);
+                }, i * 50);
             }
 
-            // Create rising balloons
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 25; i++) {
                 setTimeout(() => {
                     const balloon = document.createElement('div');
-                    balloon.className = 'rising-balloon';
+                    balloon.className = 'balloon-rise';
                     balloon.textContent = '🎈';
                     balloon.style.left = Math.random() * window.innerWidth + 'px';
                     balloon.style.top = window.innerHeight - 50 + 'px';
-                    celebration.appendChild(balloon);
+                    celebrate.appendChild(balloon);
                     setTimeout(() => balloon.remove(), 3000);
-                }, i * 100);
+                }, i * 80);
             }
         });
 
-        // Prevent No button from being clicked
+        // No button - make it unclickable
         noBtn.addEventListener('click', function(e) {
             e.preventDefault();
+            return false;
         });
-
-        // Handle window resize
-        window.addEventListener('resize', positionNoBtn);
     </script>
 
 </body>
