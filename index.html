@@ -19,14 +19,14 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: radial-gradient(circle at center, #ffd6e8, #ff8fb1);
+    background: radial-gradient(circle at center, #ffe0f0, #ff8fb1);
 }
 
 /* Floating background hearts */
 .bg-heart {
     position: absolute;
-    color: rgba(255, 20, 147, 0.25);
-    animation: floatUp 8s linear infinite;
+    color: rgba(255, 20, 147, 0.2);
+    animation: floatUp 10s linear infinite;
 }
 
 @keyframes floatUp {
@@ -44,7 +44,7 @@ h1 {
     font-size: 3.5rem;
     color: #c2185b;
     margin-bottom: 50px;
-    text-shadow: 2px 2px 15px rgba(0,0,0,0.2);
+    text-shadow: 2px 2px 20px rgba(0,0,0,0.2);
 }
 
 button {
@@ -74,38 +74,39 @@ button {
     position: fixed;
 }
 
-/* Success popup */
+/* Fancy success popup */
 .success {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 50px 80px;
-    border-radius: 20px;
-    font-size: 32px;
+    transform: translate(-50%, -50%) scale(0);
+    background: linear-gradient(135deg, #ffffff, #ffe6f2);
+    padding: 60px 100px;
+    border-radius: 25px;
+    font-size: 40px;
     font-weight: bold;
     color: #ff1493;
     text-align: center;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 0 50px rgba(255, 20, 147, 0.5);
     z-index: 200;
-    animation: popIn 0.4s ease-out;
+    animation: popIn 0.6s forwards;
 }
 
 @keyframes popIn {
-    0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 
-.celebrate-item {
+.sparkle {
     position: fixed;
-    font-size: 40px;
-    animation: explode 3s linear forwards;
+    font-size: 25px;
+    animation: sparkle 2s ease-out forwards;
 }
 
-@keyframes explode {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(-600px) rotate(360deg); opacity: 0; }
+@keyframes sparkle {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-300px) rotate(180deg); }
 }
 </style>
 </head>
@@ -130,9 +131,8 @@ let vy = 0;
 noBtn.style.left = x + "px";
 noBtn.style.top = y + "px";
 
-/* Chase physics */
+/* Smooth chase physics */
 document.addEventListener('mousemove', function(e) {
-
     const rect = noBtn.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
@@ -165,10 +165,9 @@ function animate() {
 
     requestAnimationFrame(animate);
 }
-
 animate();
 
-/* YES click */
+/* YES click celebration */
 yesBtn.addEventListener('click', function() {
 
     noBtn.style.display = "none";
@@ -176,50 +175,28 @@ yesBtn.addEventListener('click', function() {
 
     const msg = document.createElement("div");
     msg.className = "success";
-    msg.innerHTML = `
-        🎉 SHE SAID YES! 💕 <br><br>
-        <span style="font-size:20px;">
-        When should I come to Mumbai now? ✈️
-        </span>
-    `;
+    msg.innerHTML = "🎉 YAY!! She Said Yes 💕";
     document.body.appendChild(msg);
 
-    // Browser notification
-    if ("Notification" in window) {
-        if (Notification.permission === "granted") {
-            new Notification("She said YES! 💕", {
-                body: "When should I come to Mumbai now? ✈️"
-            });
-        } else if (Notification.permission !== "denied") {
-            Notification.requestPermission().then(permission => {
-                if (permission === "granted") {
-                    new Notification("She said YES! 💕", {
-                        body: "When should I come to Mumbai now? ✈️"
-                    });
-                }
-            });
-        }
-    }
-
-    // Celebration effects
-    for (let i = 0; i < 40; i++) {
-        const item = document.createElement("div");
-        item.className = "celebrate-item";
-        item.innerText = Math.random() > 0.5 ? "❤️" : "🎈";
-        item.style.left = Math.random() * window.innerWidth + "px";
-        item.style.top = window.innerHeight + "px";
-        document.body.appendChild(item);
+    // Sparkle burst
+    for (let i = 0; i < 60; i++) {
+        const sparkle = document.createElement("div");
+        sparkle.className = "sparkle";
+        sparkle.innerText = Math.random() > 0.5 ? "✨" : "💖";
+        sparkle.style.left = Math.random() * window.innerWidth + "px";
+        sparkle.style.top = window.innerHeight + "px";
+        document.body.appendChild(sparkle);
     }
 });
 
-/* Generate background hearts */
+/* Background hearts */
 for (let i = 0; i < 30; i++) {
     const heart = document.createElement("div");
     heart.className = "bg-heart";
     heart.innerHTML = "❤️";
     heart.style.left = Math.random() * 100 + "vw";
     heart.style.fontSize = (30 + Math.random() * 50) + "px";
-    heart.style.animationDuration = (5 + Math.random() * 5) + "s";
+    heart.style.animationDuration = (6 + Math.random() * 6) + "s";
     document.body.appendChild(heart);
 }
 </script>
