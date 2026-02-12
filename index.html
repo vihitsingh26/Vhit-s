@@ -3,7 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Will You Be My Valentine?</title>
+
+<!-- Neutral Preview Title -->
+<title>Something for You 💌</title>
+
+<!-- Social Media Preview Control -->
+<meta property="og:title" content="I Made Something for You 💌">
+<meta property="og:description" content="Click this… trust me ❤️">
+<meta property="og:type" content="website">
 
 <style>
 * {
@@ -93,9 +100,7 @@ button {
 }
 
 @keyframes popIn {
-    to {
-        transform: translate(-50%, -50%) scale(1);
-    }
+    to { transform: translate(-50%, -50%) scale(1); }
 }
 
 .sparkle {
@@ -178,7 +183,6 @@ yesBtn.addEventListener('click', function() {
     msg.innerHTML = "🎉 YAY!! She Said Yes 💕";
     document.body.appendChild(msg);
 
-    // Sparkle burst
     for (let i = 0; i < 60; i++) {
         const sparkle = document.createElement("div");
         sparkle.className = "sparkle";
@@ -189,7 +193,7 @@ yesBtn.addEventListener('click', function() {
     }
 });
 
-/* Background hearts */
+/* Generate background hearts */
 for (let i = 0; i < 30; i++) {
     const heart = document.createElement("div");
     heart.className = "bg-heart";
